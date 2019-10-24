@@ -5,4 +5,16 @@
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "mocha.showInExplorer": true,
+  "mocha.files.glob": "test/**/*.spec.ts",
+  "mocha.sideBarOptions": {
+    "lens": true, 
+    "decoration": true,
+    "autoUpdateTime": 2000,
+    "showDebugTestStatus": true 
+},
+"mocha.requires": [
+  "ts-node/register"
+],
+
 }

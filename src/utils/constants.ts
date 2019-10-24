@@ -1,3 +1,3 @@
-export const defaultBaseUrl = 'http://127.0.0.1:8080/auth';
+export const defaultBaseUrl = 'http://keycloak.paisc.io/auth';
 
-export const defaultRealm = 'master';
+export const defaultRealm = 'quickstart';
