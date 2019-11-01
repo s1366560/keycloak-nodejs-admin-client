@@ -9,6 +9,7 @@ import {ClientScopes} from './resources/clientScopes';
 import {IdentityProviders} from './resources/identityProviders';
 import {Components} from './resources/components';
 import {AxiosRequestConfig} from 'axios';
+import {Authz} from './resources/authz';
 
 export interface ConnectionConfig {
   baseUrl?: string;
@@ -26,6 +27,7 @@ export class KeycloakAdminClient {
   public clientScopes: ClientScopes;
   public identityProviders: IdentityProviders;
   public components: Components;
+  public authz: Authz;
 
   // Members
   public baseUrl: string;
@@ -50,6 +52,7 @@ export class KeycloakAdminClient {
     this.clientScopes = new ClientScopes(this);
     this.identityProviders = new IdentityProviders(this);
     this.components = new Components(this);
+    this.authz = new Authz(this);
   }
 
   public async auth(credentials: Credentials) {
