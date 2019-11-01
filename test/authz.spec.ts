@@ -75,7 +75,6 @@ describe('authz', () => {
       max,
     });
 
-    // expect(permissions, 'load permissions').to.be.ok;
     expect(permissions.length, 'not empty').to.be.equal(1);
   });
 });

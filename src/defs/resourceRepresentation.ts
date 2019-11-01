@@ -13,4 +13,5 @@ export default interface ResourceRepresentation {
   scopes?: ScopeRepresentation[];
   type?: string;
   uri?: string;
+  uris?: string[];
 }

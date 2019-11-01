@@ -1,17 +1,5 @@
-/**
- * https://www.keycloak.org/docs-api/4.1/rest-api/#_policyrepresentation
- */
-
-export enum DecisionStrategy {
-  AFFIRMATIVE = 'AFFIRMATIVE',
-  UNANIMOUS = 'UNANIMOUS',
-  CONSENSUS = 'CONSENSUS',
-}
-
-export enum Logic {
-  POSITIVE = 'POSITIVE',
-  NEGATIVE = 'NEGATIVE',
-}
+import {Logic} from './Logic';
+import {DecisionStrategy} from './DecisionStrategy';
 
 export default interface PolicyRepresentation {
   config?: Record<string, any>;
