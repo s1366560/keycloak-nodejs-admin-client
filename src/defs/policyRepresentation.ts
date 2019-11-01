@@ -1,5 +1,5 @@
-import {Logic} from './Logic';
-import {DecisionStrategy} from './DecisionStrategy';
+import {Logic} from './logic';
+import {DecisionStrategy} from './decisionStrategy';
 
 export default interface PolicyRepresentation {
   config?: Record<string, any>;

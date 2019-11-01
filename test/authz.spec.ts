@@ -65,16 +65,70 @@ describe('authz', () => {
     });
   });
 
-  it('should be able tolist permissions', async () => {
+  it('should be able to list permissions', async () => {
     const first = 0;
     const max = 20;
     const clientUniqueId = this.currentClient.id;
     const permissions = await this.kcAdminClient.authz.listPermissions({
-      id: clientUniqueId,
+      clientId: clientUniqueId,
       first,
       max,
     });
 
     expect(permissions.length, 'not empty').to.be.equal(1);
+  });
+
+  it('should be able to create authz scope', async () => {
+    const scopeName = faker.internet.userName();
+    const clientUniqueId = this.currentClient.id;
+
+    const scope = {
+      clientId: clientUniqueId,
+      name: scopeName,
+      displayName: 'test',
+      iconUri: '',
+    };
+    const createdScope = await this.kcAdminClient.authz.createScope(scope);
+
+    expect(createdScope).to.include({name: scopeName});
+  });
+
+  it('should be able to list all authz scope', async () => {
+    const scopeName = faker.internet.userName();
+    const clientUniqueId = this.currentClient.id;
+
+    const scope = {
+      clientId: clientUniqueId,
+      name: scopeName,
+      displayName: 'test',
+      iconUri: '',
+    };
+    const createdScope = await this.kcAdminClient.authz.createScope(scope);
+
+    expect(createdScope).to.include({name: scopeName});
+    const first = 0;
+    const max = 20;
+
+    const scopes = await this.kcAdminClient.authz.listScopes({
+      clientId: clientUniqueId,
+      first,
+      max,
+    });
+
+    expect(scopes.length, 'not empty').to.be.equal(1);
+  });
+
+  it('should be able list authz resources', async () => {
+    const clientUniqueId = this.currentClient.id;
+    const first = 0;
+    const max = 20;
+
+    const resource = await this.kcAdminClient.authz.listResources({
+      clientId: clientUniqueId,
+      first,
+      max,
+    });
+
+    expect(resource.length, 'list resource success').to.equal(1);
   });
 });
