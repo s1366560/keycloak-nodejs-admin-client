@@ -70,7 +70,7 @@ describe('authz', () => {
     const first = 0;
     const max = 20;
     const clientUniqueId = this.currentClient.id;
-    const permissions = await this.kcAdminClient.authz.listPermissions({
+    const permissions = await this.kcAdminClient.authz.permissions.find({
       clientId: clientUniqueId,
       first,
       max,
@@ -83,7 +83,7 @@ describe('authz', () => {
     const first = 0;
     const max = 20;
     const clientUniqueId = this.currentClient.id;
-    const permissions = await this.kcAdminClient.authz.listPermissions({
+    const permissions = await this.kcAdminClient.authz.permissions.find({
       clientId: clientUniqueId,
       first,
       max,
@@ -91,7 +91,7 @@ describe('authz', () => {
 
     expect(permissions.length, 'not empty').to.be.equal(1);
     const permissionId = permissions[0].id;
-    const associatedPolicies = await this.kcAdminClient.authz.listAssociatedPolicies(
+    const associatedPolicies = await this.kcAdminClient.authz.permissions.findAssociatedPolicies(
       {
         clientId: clientUniqueId,
         permissionId,
@@ -117,7 +117,7 @@ describe('authz', () => {
       displayName: 'test',
       iconUri: '',
     };
-    const createdScope = await this.kcAdminClient.authz.createScope(scope);
+    const createdScope = await this.kcAdminClient.authz.scopes.create(scope);
 
     expect(createdScope).to.include({name: scopeName});
   });
@@ -132,13 +132,13 @@ describe('authz', () => {
       displayName: 'test',
       iconUri: '',
     };
-    const createdScope = await this.kcAdminClient.authz.createScope(scope);
+    const createdScope = await this.kcAdminClient.authz.scopes.create(scope);
 
     expect(createdScope).to.include({name: scopeName});
     const first = 0;
     const max = 20;
 
-    const scopes = await this.kcAdminClient.authz.listScopes({
+    const scopes = await this.kcAdminClient.authz.scopes.find({
       clientId: clientUniqueId,
       first,
       max,
@@ -152,7 +152,7 @@ describe('authz', () => {
     const first = 0;
     const max = 20;
 
-    const resource = await this.kcAdminClient.authz.listResources({
+    const resource = await this.kcAdminClient.authz.resources.find({
       clientId: clientUniqueId,
       first,
       max,
@@ -167,7 +167,7 @@ describe('authz', () => {
     const max = 20;
     const permission = false;
 
-    const policies = await this.kcAdminClient.authz.listPolicy({
+    const policies = await this.kcAdminClient.authz.policies.find({
       clientId: clientUniqueId,
       first,
       max,
@@ -189,7 +189,7 @@ describe('authz', () => {
     });
     expect(group.id).to.be.ok;
 
-    const policy = await this.kcAdminClient.authz.createGroupPolicy(
+    const policy = await this.kcAdminClient.authz.policies.groupBase.create(
       {
         clientId: clientUniqueId,
       },
@@ -206,9 +206,11 @@ describe('authz', () => {
 
     expect(policy, 'not empty').to.be.ok;
 
-    const createdPolicies = await this.kcAdminClient.authz.listGroupPolicy({
-      clientId: clientUniqueId,
-    });
+    const createdPolicies = await this.kcAdminClient.authz.policies.groupBase.find(
+      {
+        clientId: clientUniqueId,
+      },
+    );
 
     expect(createdPolicies.length, 'not empty').to.equal(1);
   });
