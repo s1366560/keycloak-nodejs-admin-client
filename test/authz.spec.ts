@@ -6,6 +6,7 @@ import faker from 'faker';
 import ClientRepresentation from '../src/defs/clientRepresentation';
 import ProtocolMapperRepresentation from '../src/defs/protocolMapperRepresentation';
 import ClientScopeRepresentation from '../src/defs/clientScopeRepresentation';
+import {Logic} from '../src/defs/logic';
 const expect = chai.expect;
 
 declare module 'mocha' {
@@ -78,6 +79,34 @@ describe('authz', () => {
     expect(permissions.length, 'not empty').to.be.equal(1);
   });
 
+  it('should be able to list permissions associated policies', async () => {
+    const first = 0;
+    const max = 20;
+    const clientUniqueId = this.currentClient.id;
+    const permissions = await this.kcAdminClient.authz.listPermissions({
+      clientId: clientUniqueId,
+      first,
+      max,
+    });
+
+    expect(permissions.length, 'not empty').to.be.equal(1);
+    const permissionId = permissions[0].id;
+    const associatedPolicies = await this.kcAdminClient.authz.listAssociatedPolicies(
+      {
+        clientId: clientUniqueId,
+        permissionId,
+        first,
+        max,
+      },
+    );
+
+    expect(associatedPolicies.length, 'not empty').to.equal(1);
+    expect(associatedPolicies[0]).to.include({
+      name: 'Default Policy',
+      type: 'js',
+    });
+  });
+
   it('should be able to create authz scope', async () => {
     const scopeName = faker.internet.userName();
     const clientUniqueId = this.currentClient.id;
@@ -130,5 +159,57 @@ describe('authz', () => {
     });
 
     expect(resource.length, 'list resource success').to.equal(1);
+  });
+
+  it('should be able to list authz policies', async () => {
+    const clientUniqueId = this.currentClient.id;
+    const first = 0;
+    const max = 20;
+    const permission = false;
+
+    const policies = await this.kcAdminClient.authz.listPolicy({
+      clientId: clientUniqueId,
+      first,
+      max,
+      permission,
+    });
+
+    expect(policies.length, 'list policy success').to.equal(1);
+    expect(policies[0], 'policy should be contains Default Policy').to.include({
+      name: 'Default Policy',
+    });
+  });
+
+  it('should create authz group base policy', async () => {
+    const clientUniqueId = this.currentClient.id;
+
+    // initialize group
+    const group = await this.kcAdminClient.groups.create({
+      name: faker.internet.userName(),
+    });
+    expect(group.id).to.be.ok;
+
+    const policy = await this.kcAdminClient.authz.createGroupPolicy(
+      {
+        clientId: clientUniqueId,
+      },
+      {
+        name: 'test',
+        type: 'group',
+        groups: [{id: group.id, extendChildren: false}],
+        description: 'test',
+        decisionStrategy: 'UNANIMOUS',
+        groupsClaim: 'test',
+        logic: Logic.POSITIVE,
+      },
+    );
+
+    expect(policy, 'not empty').to.be.ok;
+
+    const createdPolicies = await this.kcAdminClient.authz.listGroupPolicy({
+      clientId: clientUniqueId,
+    });
+
+    expect(createdPolicies.length, 'not empty').to.equal(1);
   });
 });

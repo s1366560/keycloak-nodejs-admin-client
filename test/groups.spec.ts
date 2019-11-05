@@ -25,7 +25,7 @@ describe('Groups', function() {
     await this.kcAdminClient.auth(credentials);
     // initialize group
     const group = await this.kcAdminClient.groups.create({
-      name: 'cool-group',
+      name: faker.internet.userName(),
     });
     expect(group.id).to.be.ok;
     this.currentGroup = await this.kcAdminClient.groups.findOne({id: group.id});
