@@ -1,5 +1,8 @@
 {
-  "prettier.tslintIntegration": true,
+  "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+      "source.fixAll.tslint": true
+  },
   "editor.formatOnSave": true,
   "javascript.format.enable": false,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,

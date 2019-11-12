@@ -8,11 +8,11 @@ export interface Group {
 
 export default interface AuthzGroupBasePolicy {
   id?: string;
-  name: string;
-  type: string;
-  logic: Logic;
+  name?: string;
+  type?: string;
+  logic?: Logic;
   description?: string;
-  decisionStrategy: DecisionStrategy;
-  groups: Group[];
-  groupsClaim: string;
+  decisionStrategy?: DecisionStrategy;
+  groups?: Group[];
+  groupsClaim?: string;
 }
