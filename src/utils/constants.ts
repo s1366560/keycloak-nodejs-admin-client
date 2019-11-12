@@ -1,3 +1,3 @@
-export const defaultBaseUrl = 'http://keycloak.paisc.io/auth';
+export const defaultBaseUrl = 'http://k.dev.my/auth';
 
 export const defaultRealm = 'quickstart';
